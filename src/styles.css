@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("./assets/css/appice-styles.css");
+@import url('./assets/css/cornelius.css');
+
+
+.theme-green .bs-datepicker-body table td span.selected, .theme-green .bs-datepicker-body table td.selected span, .theme-green .bs-datepicker-body table td span[class*="select-"]:after, .theme-green .bs-datepicker-body table td[class*="select-"] span:after{
+    background-color: #4ba9ab !important;
+}
+.theme-green .bs-datepicker-head{
+    background-color: #4ba9ab !important;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+    color: #4a4a4a;
+    background: #dae0e6 !important;
+}

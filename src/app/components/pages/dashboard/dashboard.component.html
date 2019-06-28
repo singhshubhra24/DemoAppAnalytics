@@ -1,0 +1,252 @@
+
+<div class="dashboard">
+	<section class="tile-view">
+	<div class="row">
+		<div class="col-2 p-4">
+			<h1>Dashboard</h1>
+		</div>
+		<div class="col-3 offset-7" [hidden]="!isCustom">
+		<label>Period: </label>
+		<div class="slect-box">
+			<select (change)="chunkOnChange($event.target)" [(ngModel)]="scale">
+				<option value="monthly">This Month</option>
+				<option value="today">Today</option>
+				<option value="yesterday">Yesterday</option>
+				<option value="last_7_days">Last 7 Days</option>
+				<option value="last_30_days">Last 30 days</option>
+				<option value="custom">Custom</option>
+			</select>
+		</div>
+		</div>
+		<div class="col-3 offset-2" [hidden]="isCustom">
+			<label>Period: </label>
+			<div class="slect-box">
+				<select (change)="chunkOnChange($event.target)"  [(ngModel)]="scale">
+					<option value="monthly">This Month</option>
+					<option value="today">Today</option>
+					<option value="yesterday">Yesterday</option>
+					<option value="last_7_days">Last 7 Days</option>
+					<option value="last_30_days">Last 30 days</option>
+					<option value="custom">Custom</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-3" [hidden]="isCustom">
+			<label>Select Dates:</label>
+			<input type="text" class="form-control" name="start" placeholder="Dates" 
+			#drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValueChunks" autocomplete="off">
+			
+		</div> 
+		<div class="col-2 p-4" [hidden]="isCustom">
+			<button class="btn btn-theme m-t-px10" (click)="viewChunks()">View</button>
+		</div>
+	</div>
+	<div class="tile-sec">
+	<ng-template #popContent>Unique Downloads :{{installdata.countInstall}}<br>
+		Total Downloads :{{installdata.countInstall}}</ng-template>
+	<div class="tile">
+		<div class="tile-sec1">
+			<div class="tile-bg"></div>
+			<h4>NEW DOWNLOADS</h4>
+			<div class="tile-percent-info green" [hidden]="isVisibleInstall">
+				<span>{{changeInstall}}</span>
+				<span class="prcent-sym">%</span>
+			</div>
+			<div class="tile-percent-info red" [hidden]="!isVisibleInstall">
+				<span>{{changeInstall}}</span>
+				<span class="prcent-sym">%</span>
+			</div>
+			<div class="tile-percent-desc">
+				<p class="title-precnt-info" *ngIf="installdata"><span>{{installdata.countInstall}}</span> Total</p>
+				<p class="title-precnt-info" *ngIf="!installdata"><span>0</span> Total</p>
+				<p class="title-precnt-info" *ngIf="installdata"><span>{{installdata.countInstall}}</span> Unique</p>
+				<p class="title-precnt-info" *ngIf="!installdata"><span>0</span> Unique</p>
+			</div> 
+			<div class="clear"></div>
+		</div>
+		<div class="tile-sec2">
+			<p>No action available</p>
+		</div>
+		<div class="tile-sec3"><a href="" class="download-icon"></a><a href="" class="details view-details">Details</a></div>
+	</div>
+	<ng-template #popContentActiveUser>Total Active users till <br/>
+		<strong>{{date}}</strong> is : <strong> {{activeUser.currentactiveuser}})</strong></ng-template>
+		<div class="tile blue">
+			<div class="tile-sec1">
+				<div class="tile-bg"></div>
+				<h4>ACTIVE USERS</h4>
+				<div class="tile-percent-info">
+					<p class="title-precnt-info" *ngIf="activeUser"><span>{{activeUser.currentactiveuser}}</span></p>
+					<p class="title-precnt-info" *ngIf="!activeUser"><span>0</span></p>
+				</div> 
+				<div class="clear"></div>
+			</div>
+			<div class="tile-sec2">
+				<p>No action available</p>
+			</div>
+			<div class="tile-sec3"><a class="download-icon"></a><a [routerLink] = "['/users']"  class="details">Details</a></div>
+		</div>
+		<div class="tile purple">
+			<div class="tile-sec1">
+				<div class="tile-bg"></div>
+				<h4>ENGAGEMENT</h4>
+				<div class="tile-percent-info green"  [hidden]="isVisibleEngage">
+					<span>{{changeEngagement}}</span>
+					<span class="prcent-sym">%</span>
+				</div>
+				<div class="tile-percent-info red"  [hidden]="!isVisibleEngage">
+					<span>{{changeEngagement}}</span>
+					<span class="prcent-sym">%</span>
+				</div>
+				<div class="tile-percent-desc">
+					<p class="title-precnt-info" *ngIf="activeUser"><span>{{activeUser.currentTotal}}</span></p>
+					<p class="title-precnt-info" *ngIf="!activeUser"><span>0</span></p>
+				</div> 
+				<div class="clear"></div>
+			</div>
+			<div class="tile-sec2">
+				<p>No action available</p>
+			</div>
+			<div class="tile-sec3"><a href="" class="download-icon"></a><a href="" class="details">Details</a></div>
+		</div>
+	<ng-template #popContentChurn>Unique Uninstalls : {{ churndata.uniqueUninstall }}<br>
+		Total Uninstalls :{{churndata.currentTotal }}</ng-template>
+	<div class="tile grey">
+		<div class="tile-sec1">
+			<div class="tile-bg"></div>
+			<h4>CHURN</h4>
+			<div class="tile-percent-info green" [hidden]="isVisibleUninstall">
+				<span>{{changeChurn}}</span>
+				<span class="prcent-sym">%</span>
+			</div>
+			<div class="tile-percent-info red" [hidden]="!isVisibleUninstall">
+				<span>{{changeChurn}}</span>
+				<span class="prcent-sym">%</span>
+			</div>
+			<div class="tile-percent-desc">
+				<p class="title-precnt-info" *ngIf="installdata"><span>{{churndata.currentTotal}}</span></p>
+				<p class="title-precnt-info" *ngIf="!installdata"><span>0</span></p>
+				<p class="title-precnt-info" *ngIf="installdata">{{churndata.uniqueUninstall}}@ Risk</p>
+				<p class="title-precnt-info" *ngIf="!installdata">0 @ Risk</p>
+			</div> 
+			<div class="clear"></div>
+		</div>
+		<div class="tile-sec2">
+			<p>No action available</p>
+		</div>
+		<div class="tile-sec3"><a href="" class="download-icon"></a><a href="" class="details">Details</a></div>
+	</div>
+	</div>
+	</section>
+	<section class="dashboard-stats-table">
+		<div class="container">
+			<div class="main-head-sec">
+				<h2>INSTALLS/ UNINSTALLS</h2>
+				<div class="main-head-rhs">
+					<div class="slect-box-wrap">
+						<div class="dash-tableHead-btns">
+							<ul>
+								<li [ngClass]="{'highlight': isAbsolutesource}" (click)="checkIfAbsoluteSource('source')" class="w-50">Source</li>
+								<li [ngClass]="{'highlight': !isAbsolutesource}" (click)="checkIfAbsoluteSource('campaign')" class="w-50">Campaign</li>
+							</ul>
+						</div>
+					</div>
+					<div class="slect-box-wrap">
+						<div class="dash-tableHead-btns">
+							<ul>
+								<li [ngClass]="{'highlight': isAbsoluteFilter == 'All'}" (click)="installGraphChange('All')">ALL</li>
+								<li [ngClass]="{'highlight': isAbsoluteFilter == 'ios'}" (click)="installGraphChange('ios')">ios</li>
+								<li [ngClass]="{'highlight': isAbsoluteFilter == 'Android'}" (click)="installGraphChange('Android')">Android</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="progres-header">
+			<div class="prog-head-col one" *ngIf="isAbsolutesource">SOURCE</div>
+			<div class="prog-head-col one" *ngIf="!isAbsolutesource">CAMPAIGN</div>
+			<div class="prog-head-col two">INSTALLS/INSTALLS</div>
+			<div class="prog-head-col three">AVG.CPI</div>
+			<div class="prog-head-col four">PERCENTAGE</div>
+		</div>
+		<div class="progres-table-info"  style="word-wrap: break-word;" [ngClass] = "status?'overShow':'overHide'" *ngIf="valid">
+			<ng-container *ngFor="let item of graphData">
+					<div class="progress-col-row">
+			<div class="prog-info-col one">{{item.source_name}}</div>
+			<div class="prog-info-col two">
+				<div class="prog-bar blue"> <span class="bar-progress" [style.width.%]="item.installCount"></span>
+				{{item.installCount}}
+				</div>
+				<div class="prog-bar red"> <span class="bar-progress" [style.width.%]="item.uninstallCount"></span> </div>
+				{{item.uninstallCount}}
+			</div>
+			<div class="prog-info-col three">{{ item.cpi}}</div>
+			<div class="prog-info-col four">{{ item.percent }}</div>
+					</div>
+			</ng-container>
+			<div class="view-more-wrap" [hidden]="status">View More
+				<div class="view-more-icon"  (click)="muteStream()"><span></span></div>
+				<!-- <div class="view-more-icon" [ngClass]= "{'overflow-y':}" (click)="clickView?true:false"><span></span></div> -->
+			</div>
+			<div class="view-more-wrap" [hidden]="!status">View Less
+				<div class="view-more-icon"  (click)="muteStream()"><span></span></div>
+				<!-- <div class="view-more-icon" [ngClass]= "{'overflow-y':}" (click)="clickView?true:false"><span></span></div> -->
+			</div>
+		</div>
+		<div class="dash-donload-list">
+			<div class="container"><a href="" class="download-icon">Download</a></div>
+		</div>
+	</section>
+  <section class="dashboard-stats-table retention">
+    <div class="container">
+			<div class="row"><h2 class="pl-2 pt-2">COHORT RETENTION</h2></div>
+			<hr>
+			<div class="main-head-sec">
+				<div class="row">
+					<div class="col-3">
+						<div class="slect-box-wrap ml-0 w-100">
+							<div class="dash-tableHead-btns w-100 d-block">
+								<ul w-100 d-block>
+									<li [ngClass]="{'highlight': !isAbsolute}" (click)="checkIfAbsolute()" class="w-50">Percentage</li>
+									<li [ngClass]="{'highlight': isAbsolute}" (click)="checkIfAbsolute()" class="w-50">Absolute</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-3">
+						<div class="slect-box-wrap ml-0 row d-block">
+							<label class="col-5">Period: </label>
+							<div class="slect-box col-7">
+								<select (change)="cohortOnChange($event.target)">
+									<option value="yearly">Yearly</option>
+									<option value="monthly">Monthly</option>
+									<option value="weekly">Weekly</option>
+									<option value="daily">Daily</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-5">
+						<div class="row mt-2">
+						<div class="col-4">
+							<label>Select Dates</label>
+						</div>
+						<div class="col-8">
+							<input type="text" class="form-control" name="start" placeholder="Dates" id="txtFromDate" 
+							#drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue" autocomplete="off">
+						</div>
+						</div>
+					</div>
+					<div class="col-1">
+						<button class="btn btn-theme m-t-px10" (click)="viewCohort()">View</button>
+					</div>
+				</div>
+			</div>
+		</div>
+    <div class="col-md-12" id="installCohort"></div>
+    <div class="dash-donload-list">
+      <div class="container"><a href="javascript:void(0)" (click)="downloadCohort2Csv()" class="download-icon"><span>Download</span></a></div>
+    </div>
+  </section>
+</div>

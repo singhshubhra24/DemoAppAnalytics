@@ -1,0 +1,33 @@
+.cornelius-table{
+    display: inline-block;
+}
+#installCohort{
+    overflow-x: scroll;
+}
+.m-t-px10{
+    margin-top: 10px;
+}
+.m-tb-px10{
+    margin-top: 10px;
+    margin-bottom: .5rem;
+}
+.dashboard .dash-tableHead-btns ul li{
+    padding: 4px 15px !important;
+}
+
+td span.only-show-on-hover {
+    visibility: hidden;
+}
+td:hover span.only-show-on-hover  {
+    visibility: visible;
+}
+.overShow{
+    overflow-y: scroll;
+}
+.overHide{
+    overflow-y: hidden;
+}
+.btn-theme{
+    background: #4ba9ab;
+    color: #fff;
+}
